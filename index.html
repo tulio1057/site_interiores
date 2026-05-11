@@ -1,503 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anne Beatriz Interiores</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --cream: #f5f0e8;
-    --warm-white: #faf7f2;
-    --sand: #e8dcc8;
-    --taupe: #c4b49a;
-    --gold: #b8975a;
-    --gold-light: #d4b478;
-    --dark: #2a2118;
-    --mid: #6b5b47;
-    --text: #3d3228;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Jost', sans-serif;
-    background: var(--warm-white);
-    color: var(--text);
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* CURSOR */
-  .cursor {
-    width: 8px; height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transition: all 0.15s ease;
-    opacity: 0.6;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    padding: 28px 60px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(250,247,242,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(196,180,154,0.2);
-  }
-  .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 300; letter-spacing: 3px;
-    color: var(--dark); text-transform: uppercase;
-  }
-  .logo span { color: var(--gold); }
-  nav ul { list-style: none; display: flex; gap: 40px; }
-  nav a {
-    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-    color: var(--mid); text-decoration: none; font-weight: 300;
-    transition: color 0.3s;
-    position: relative;
-  }
-  nav a::after {
-    content: ''; position: absolute; bottom: -4px; left: 0;
-    width: 0; height: 1px; background: var(--gold);
-    transition: width 0.3s;
-  }
-  nav a:hover { color: var(--gold); }
-  nav a:hover::after { width: 100%; }
-
-  /* HERO */
-  #hero {
-    height: 100vh;
-    display: grid; grid-template-columns: 1fr 1fr;
-    position: relative; overflow: hidden;
-  }
-  .hero-left {
-    background: var(--dark);
-    display: flex; flex-direction: column;
-    justify-content: flex-end; padding: 80px 70px;
-    position: relative; overflow: hidden;
-  }
-  .hero-left::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: url('https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?w=900&q=80') center/cover;
-    opacity: 0.3;
-  }
-  .hero-tag {
-    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-    color: var(--gold); font-weight: 300; margin-bottom: 20px;
-    position: relative; z-index: 1;
-  }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 6vw, 86px);
-    font-weight: 300; line-height: 1.05;
-    color: var(--cream); position: relative; z-index: 1;
-    margin-bottom: 32px;
-  }
-  .hero-title em { font-style: italic; color: var(--gold-light); }
-  .hero-desc {
-    font-size: 13px; line-height: 1.8; color: var(--taupe);
-    max-width: 340px; font-weight: 300;
-    position: relative; z-index: 1; margin-bottom: 44px;
-  }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 14px;
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--cream); text-decoration: none; font-weight: 300;
-    border-bottom: 1px solid var(--gold); padding-bottom: 8px;
-    position: relative; z-index: 1;
-    transition: gap 0.3s, color 0.3s;
-  }
-  .btn-primary:hover { gap: 22px; color: var(--gold); }
-  .btn-arrow { font-size: 18px; }
-
-  .hero-right {
-    background: var(--cream);
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    padding: 80px 60px; gap: 24px;
-    position: relative;
-  }
-  .hero-img-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    width: 100%; max-width: 420px;
-  }
-  .hero-img {
-    aspect-ratio: 3/4; overflow: hidden;
-  }
-  .hero-img:first-child { margin-top: 48px; }
-  .hero-img img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.6s ease;
-  }
-  .hero-img:hover img { transform: scale(1.04); }
-  .hero-stat {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--mid); text-align: center;
-  }
-  .hero-stat strong {
-    display: block; font-size: 42px; font-weight: 300;
-    color: var(--gold); font-family: 'Cormorant Garamond', serif;
-    letter-spacing: 0;
-  }
-  .stats-row {
-    display: flex; gap: 48px;
-  }
-  .divider-v { width: 1px; background: var(--sand); }
-
-  /* ABOUT */
-  #sobre {
-    padding: 140px 60px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 100px;
-    align-items: center; max-width: 1200px; margin: 0 auto;
-  }
-  .section-label {
-    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-    color: var(--gold); font-weight: 300; margin-bottom: 20px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .section-label::before {
-    content: ''; width: 32px; height: 1px; background: var(--gold);
-  }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 4vw, 56px); font-weight: 300; line-height: 1.15;
-    margin-bottom: 28px;
-  }
-  .section-title em { font-style: italic; color: var(--gold); }
-  .body-text {
-    font-size: 14px; line-height: 2; color: var(--mid);
-    font-weight: 300; margin-bottom: 20px;
-  }
-  .about-img-wrap {
-    position: relative;
-  }
-  .about-img-wrap::before {
-    content: '';
-    position: absolute; top: -20px; left: -20px; right: 20px; bottom: 20px;
-    border: 1px solid var(--sand); z-index: 0;
-  }
-  .about-img-wrap img {
-    width: 100%; aspect-ratio: 4/5; object-fit: cover;
-    position: relative; z-index: 1;
-  }
-
-  /* SERVIÇOS */
-  #servicos {
-    background: var(--dark);
-    padding: 120px 60px;
-  }
-  .services-header {
-    max-width: 1200px; margin: 0 auto 80px;
-    display: flex; justify-content: space-between; align-items: flex-end;
-  }
-  .services-grid {
-    max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
-    background: rgba(196,180,154,0.2);
-  }
-  .service-card {
-    background: var(--dark);
-    padding: 56px 48px;
-    transition: background 0.4s;
-    position: relative; overflow: hidden;
-  }
-  .service-card::before {
-    content: '';
-    position: absolute; bottom: 0; left: 0;
-    width: 100%; height: 0;
-    background: var(--gold);
-    transition: height 0.4s ease;
-    z-index: 0;
-    opacity: 0.06;
-  }
-  .service-card:hover::before { height: 100%; }
-  .service-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 60px; font-weight: 300;
-    color: rgba(184,151,90,0.15); line-height: 1;
-    margin-bottom: 28px;
-  }
-  .service-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; font-weight: 300;
-    color: var(--cream); margin-bottom: 16px;
-  }
-  .service-desc {
-    font-size: 13px; line-height: 1.9;
-    color: rgba(196,180,154,0.7); font-weight: 300;
-  }
-  .services-header .section-label { color: var(--taupe); }
-  .services-header .section-label::before { background: var(--taupe); }
-  .services-header .section-title { color: var(--cream); }
-
-  /* PROJETOS 3D */
-  #projetos {
-    padding: 120px 60px;
-    background: var(--cream);
-  }
-  .projetos-header {
-    max-width: 1200px; margin: 0 auto 64px;
-    text-align: center;
-  }
-  .viewer-container {
-    max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 320px; gap: 32px;
-    align-items: start;
-  }
-  .canvas-wrap {
-    position: relative;
-    background: var(--dark);
-    aspect-ratio: 16/9;
-    overflow: hidden;
-  }
-  #threeCanvas {
-    width: 100%; height: 100%; display: block;
-  }
-  .canvas-controls {
-    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 12px;
-    background: rgba(42,33,24,0.7);
-    backdrop-filter: blur(8px);
-    padding: 10px 20px; border-radius: 2px;
-  }
-  .canvas-controls span {
-    font-size: 10px; letter-spacing: 2px; color: var(--taupe);
-    text-transform: uppercase;
-  }
-  .canvas-loading {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    background: var(--dark); z-index: 10;
-    gap: 16px; transition: opacity 0.5s;
-  }
-  .canvas-loading.hidden { opacity: 0; pointer-events: none; }
-  .loading-ring {
-    width: 48px; height: 48px;
-    border: 1px solid rgba(184,151,90,0.3);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 1.2s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text {
-    font-size: 10px; letter-spacing: 3px;
-    color: var(--taupe); text-transform: uppercase;
-  }
-
-  .project-list { display: flex; flex-direction: column; gap: 12px; }
-  .project-item {
-    padding: 24px 28px;
-    background: var(--warm-white);
-    border: 1px solid transparent;
-    cursor: pointer; transition: all 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .project-item.active,
-  .project-item:hover {
-    border-color: var(--gold);
-    background: var(--warm-white);
-  }
-  .project-item.active::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px; background: var(--gold);
-  }
-  .project-item-label {
-    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--taupe); margin-bottom: 8px;
-  }
-  .project-item-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px; font-weight: 400;
-    color: var(--dark); margin-bottom: 8px;
-  }
-  .project-item-desc {
-    font-size: 12px; color: var(--mid);
-    line-height: 1.7; font-weight: 300;
-  }
-  .viewer-tip {
-    margin-top: 16px;
-    padding: 16px 20px;
-    background: rgba(184,151,90,0.08);
-    border-left: 2px solid var(--gold);
-  }
-  .viewer-tip p {
-    font-size: 11px; color: var(--mid);
-    line-height: 1.7; font-weight: 300;
-    letter-spacing: 0.5px;
-  }
-
-  /* GALERIA */
-  #galeria { padding: 0 0 120px; }
-  .galeria-header {
-    max-width: 1200px; margin: 0 auto 60px; padding: 0 60px;
-  }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(2, 280px);
-    gap: 8px; padding: 0 60px;
-    max-width: 1400px; margin: 0 auto;
-  }
-  .gallery-item { overflow: hidden; position: relative; }
-  .gallery-item img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.7s ease;
-  }
-  .gallery-item:hover img { transform: scale(1.06); }
-  .gallery-item::after {
-    content: attr(data-label);
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 24px 20px 16px;
-    background: linear-gradient(transparent, rgba(42,33,24,0.7));
-    font-size: 11px; letter-spacing: 2px; color: var(--cream);
-    text-transform: uppercase; font-weight: 300;
-    opacity: 0; transition: opacity 0.3s;
-  }
-  .gallery-item:hover::after { opacity: 1; }
-  .gi-1 { grid-column: 1/5; grid-row: 1/2; }
-  .gi-2 { grid-column: 5/8; grid-row: 1/3; }
-  .gi-3 { grid-column: 8/13; grid-row: 1/2; }
-  .gi-4 { grid-column: 1/5; grid-row: 2/3; }
-  .gi-5 { grid-column: 8/13; grid-row: 2/3; }
-
-  /* CONTATO */
-  #contato {
-    background: var(--dark);
-    padding: 120px 60px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 100px;
-    max-width: 100%; position: relative; overflow: hidden;
-  }
-  #contato::before {
-    content: 'AB';
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 320px; font-weight: 300;
-    color: rgba(196,180,154,0.04);
-    position: absolute; right: -20px; bottom: -60px;
-    line-height: 1; pointer-events: none;
-    letter-spacing: -10px;
-  }
-  .contato-left { max-width: 480px; }
-  .contato-left .section-label { color: var(--taupe); }
-  .contato-left .section-label::before { background: var(--taupe); }
-  .contato-left .section-title { color: var(--cream); }
-  .contato-left .body-text { color: rgba(196,180,154,0.7); }
-  .contact-info { margin-top: 48px; display: flex; flex-direction: column; gap: 28px; }
-  .contact-item { display: flex; gap: 20px; align-items: flex-start; }
-  .contact-icon {
-    width: 40px; height: 40px; border: 1px solid rgba(184,151,90,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; flex-shrink: 0;
-    color: var(--gold);
-  }
-  .contact-label {
-    font-size: 9px; letter-spacing: 2.5px; color: var(--taupe);
-    text-transform: uppercase; margin-bottom: 4px;
-  }
-  .contact-val {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px; color: var(--cream); font-weight: 300;
-  }
-
-  .form-group { margin-bottom: 24px; }
-  .form-group label {
-    display: block; font-size: 9px; letter-spacing: 2.5px;
-    text-transform: uppercase; color: var(--taupe);
-    margin-bottom: 10px;
-  }
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    background: transparent;
-    border: none; border-bottom: 1px solid rgba(196,180,154,0.3);
-    padding: 12px 0; font-size: 14px;
-    color: var(--cream); font-family: 'Jost', sans-serif;
-    font-weight: 300; outline: none;
-    transition: border-color 0.3s;
-    appearance: none;
-  }
-  .form-group select option { background: var(--dark); color: var(--cream); }
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    border-bottom-color: var(--gold);
-  }
-  .form-group textarea { resize: none; height: 100px; }
-  .btn-submit {
-    margin-top: 16px;
-    background: var(--gold);
-    border: none; padding: 18px 44px;
-    font-family: 'Jost', sans-serif;
-    font-size: 11px; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--dark);
-    cursor: none; font-weight: 400;
-    transition: background 0.3s, transform 0.2s;
-  }
-  .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-  /* FOOTER */
-  footer {
-    background: #1a150f;
-    padding: 40px 60px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px; letter-spacing: 3px; color: var(--cream);
-    font-weight: 300; text-transform: uppercase;
-  }
-  .footer-logo span { color: var(--gold); }
-  .footer-copy {
-    font-size: 10px; color: rgba(196,180,154,0.4);
-    letter-spacing: 1.5px;
-  }
-  .footer-social { display: flex; gap: 20px; }
-  .footer-social a {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--taupe); text-decoration: none;
-    transition: color 0.3s;
-  }
-  .footer-social a:hover { color: var(--gold); }
-
-  /* FADE IN */
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible { opacity: 1; transform: none; }
-
-  @media (max-width: 900px) {
-    #hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
-    #sobre, #contato { grid-template-columns: 1fr; gap: 48px; }
-    .viewer-container { grid-template-columns: 1fr; }
-    .services-grid { grid-template-columns: 1fr; }
-    nav { padding: 20px 24px; }
-    nav ul { gap: 20px; }
-    #hero, #sobre, #servicos, #projetos, #galeria, #contato { padding-left: 24px; padding-right: 24px; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anne Beatriz Interiores</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -522,17 +29,23 @@
     <div class="hero-tag">Design de Interiores · Sergipe, Brasil</div>
     <h1 class="hero-title">Espaços que<br><em>contam</em><br>histórias</h1>
     <p class="hero-desc">Transformamos ambientes em experiências únicas, unindo sofisticação, funcionalidade e a identidade de quem vive.</p>
-    <a href="#projetos" class="btn-primary">
-      Ver Projetos <span class="btn-arrow">→</span>
-    </a>
+    <a href="#projetos" class="btn-primary">Ver Projetos <span>→</span></a>
   </div>
   <div class="hero-right">
     <div class="hero-img-grid">
       <div class="hero-img">
-        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&q=80" alt="Interior 1">
+        <img
+          src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=500&q=80"
+          alt="Interior 1"
+          loading="lazy"
+        >
       </div>
       <div class="hero-img">
-        <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=500&q=80" alt="Interior 2">
+        <img
+          src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=500&q=80"
+          alt="Interior 2"
+          loading="lazy"
+        >
       </div>
     </div>
     <div class="stats-row">
@@ -551,13 +64,15 @@
     <p class="section-label">Sobre mim</p>
     <h2 class="section-title">Beleza com <em>propósito</em></h2>
     <p class="body-text">Anne Beatriz é designer de interiores apaixonada por criar ambientes que equilibram estética e vivência. Com olhar refinado e escuta atenta, cada projeto nasce do desejo único de cada cliente.</p>
-    <p class="body-text">Atuando em projetos residenciais e comerciais, seu estilo transita entre o contemporâneo e o atemporal, sempre com muito cuidado nas texturas, na paleta de cores e nos detalhes que fazem a diferença.</p>
-    <a href="#contato" class="btn-primary" style="color:var(--gold); border-color:var(--gold);">
-      Iniciar projeto <span class="btn-arrow">→</span>
-    </a>
+    <p class="body-text">Atuando em projetos residenciais e comerciais, seu estilo transita entre o contemporâneo e o atemporal, com muito cuidado nas texturas, na paleta de cores e nos detalhes que fazem a diferença.</p>
+    <a href="#contato" class="btn-primary" style="color:var(--gold);border-color:var(--gold)">Iniciar projeto <span>→</span></a>
   </div>
   <div class="about-img-wrap reveal">
-    <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=700&q=80" alt="Anne Beatriz">
+    <img
+      src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=700&q=80"
+      alt="Anne Beatriz"
+      loading="lazy"
+    >
   </div>
 </section>
 
@@ -566,7 +81,7 @@
   <div class="services-header reveal">
     <div>
       <p class="section-label">O que ofereço</p>
-      <h2 class="section-title" style="color:var(--cream)">Serviços</h2>
+      <h2 class="section-title">Serviços</h2>
     </div>
   </div>
   <div class="services-grid">
@@ -578,7 +93,7 @@
     <div class="service-card reveal">
       <div class="service-num">02</div>
       <div class="service-title">Projeto Comercial</div>
-      <p class="service-desc">Ambientes corporativos e comerciais planejados para unir identidade de marca e experiência do usuário.</p>
+      <p class="service-desc">Ambientes corporativos planejados para unir identidade de marca e experiência do usuário.</p>
     </div>
     <div class="service-card reveal">
       <div class="service-num">03</div>
@@ -593,7 +108,7 @@
   <div class="projetos-header reveal">
     <p class="section-label" style="justify-content:center">Experiência Imersiva</p>
     <h2 class="section-title">Explore em <em>3D</em></h2>
-    <p class="body-text" style="max-width:520px;margin:0 auto">Navegue pelos ambientes projetados diretamente no seu navegador. Arraste para girar, scroll para aproximar.</p>
+    <p class="body-text" style="max-width:520px;margin:0 auto">Navegue pelos ambientes projetados diretamente no navegador. Arraste para girar, scroll para aproximar.</p>
   </div>
   <div class="viewer-container">
     <div class="canvas-wrap">
@@ -620,7 +135,7 @@
         </div>
       </div>
       <div class="viewer-tip">
-        <p>💡 Os modelos 3D são exemplos demonstrativos. Projetos reais são apresentados em reunião com a designer.</p>
+        <p>💡 Modelos 3D demonstrativos. Projetos reais são apresentados em reunião com a designer.</p>
       </div>
     </div>
   </div>
@@ -634,19 +149,19 @@
   </div>
   <div class="gallery-grid">
     <div class="gallery-item gi-1" data-label="Sala de Estar">
-      <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80" alt="">
+      <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=800&q=80" alt="Sala de Estar" loading="lazy">
     </div>
     <div class="gallery-item gi-2" data-label="Suite Master">
-      <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=80" alt="">
+      <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=800&q=80" alt="Suite Master" loading="lazy">
     </div>
     <div class="gallery-item gi-3" data-label="Cozinha Gourmet">
-      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80" alt="Cozinha" loading="lazy">
     </div>
     <div class="gallery-item gi-4" data-label="Home Office">
-      <img src="https://images.unsplash.com/photo-1593643946890-b5b85ade6451?w=800&q=80" alt="">
+      <img src="https://images.unsplash.com/photo-1593643946890-b5b85ade6451?auto=format&fit=crop&w=800&q=80" alt="Home Office" loading="lazy">
     </div>
     <div class="gallery-item gi-5" data-label="Área Gourmet">
-      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Área Gourmet" loading="lazy">
     </div>
   </div>
 </section>
@@ -682,7 +197,7 @@
     </div>
   </div>
   <div class="reveal">
-    <p class="section-label" style="color:var(--taupe)"><span style="background:var(--taupe);width:32px;height:1px;display:inline-block;margin-right:12px;"></span>Solicitar orçamento</p>
+    <p class="section-label" style="color:var(--taupe)"><span style="background:var(--taupe);width:32px;height:1px;display:inline-block;margin-right:12px"></span>Solicitar orçamento</p>
     <div class="form-group">
       <label>Nome completo</label>
       <input type="text" placeholder="Seu nome">
@@ -711,169 +226,14 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Anne <span>Beatriz</span></div>
-  <p class="footer-copy">© 2024 Anne Beatriz Interiores · Todos os direitos reservados</p>
+  <p class="footer-copy">© 2025 Anne Beatriz Interiores · Todos os direitos reservados</p>
   <div class="footer-social">
     <a href="https://www.instagram.com/annebeatrizinteriores/" target="_blank">Instagram</a>
     <a href="#contato">WhatsApp</a>
   </div>
 </footer>
 
-<!-- SCRIPTS -->
-<!-- Cursor & Reveal (non-module) -->
-<script>
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-(function animCursor() {
-  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-  cursor.style.transform = `translate(${mx-4}px,${my-4}px)`;
-  ring.style.transform = `translate(${rx-18}px,${ry-18}px)`;
-  requestAnimationFrame(animCursor);
-})();
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-</script>
-
-<!-- Three.js via ES Modules -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
-  }
-}
-</script>
-<script type="module">
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-const canvas = document.getElementById('threeCanvas');
-const wrap = canvas.parentElement;
-
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.2;
-
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x2a2118);
-scene.fog = new THREE.Fog(0x2a2118, 12, 50);
-
-const camera = new THREE.PerspectiveCamera(45, 16/9, 0.1, 100);
-camera.position.set(4, 3, 6);
-
-// OrbitControls
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.dampingFactor = 0.06;
-controls.minDistance = 2;
-controls.maxDistance = 15;
-controls.maxPolarAngle = Math.PI / 2 - 0.05;
-controls.target.set(0, 1, 0);
-
-// Lights
-scene.add(new THREE.AmbientLight(0xfaf7f2, 0.7));
-const dirLight = new THREE.DirectionalLight(0xffe8c0, 1.4);
-dirLight.position.set(5, 10, 7);
-dirLight.castShadow = true;
-dirLight.shadow.mapSize.set(2048, 2048);
-scene.add(dirLight);
-const fillLight = new THREE.DirectionalLight(0xc4b49a, 0.4);
-fillLight.position.set(-5, 2, -5);
-scene.add(fillLight);
-const pointLight = new THREE.PointLight(0xb8975a, 0.8, 20);
-pointLight.position.set(0, 4, 0);
-scene.add(pointLight);
-
-// Floor
-const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(40, 40),
-  new THREE.MeshStandardMaterial({ color: 0x1a150f, roughness: 0.9 })
-);
-floor.rotation.x = -Math.PI / 2;
-floor.receiveShadow = true;
-scene.add(floor);
-
-// Resize
-function resize() {
-  const w = wrap.clientWidth, h = wrap.clientHeight;
-  renderer.setSize(w, h);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-}
-window.addEventListener('resize', resize);
-resize();
-
-// Load model
-const loader = new GLTFLoader();
-let currentModel = null;
-
-window.loadModel = function(el) {
-  document.querySelectorAll('.project-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
-  const modelFile = el.dataset.model;
-  const overlay = document.getElementById('loadingOverlay');
-  const loadingText = document.querySelector('.loading-text');
-  overlay.classList.remove('hidden');
-  overlay.style.opacity = '1';
-
-  if (currentModel) { scene.remove(currentModel); currentModel = null; }
-
-  loader.load(
-    modelFile,
-    gltf => {
-      currentModel = gltf.scene;
-      const box = new THREE.Box3().setFromObject(currentModel);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 3.5 / maxDim;
-      currentModel.scale.setScalar(scale);
-      currentModel.position.sub(center.multiplyScalar(scale));
-      currentModel.position.y = 0;
-      currentModel.traverse(n => {
-        if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; }
-      });
-      scene.add(currentModel);
-      controls.target.set(0, 1, 0);
-      controls.reset();
-      camera.position.set(4, 3, 6);
-      overlay.classList.add('hidden');
-      loadingText.textContent = 'Carregando ambiente...';
-    },
-    xhr => {
-      if (xhr.total > 0) {
-        loadingText.textContent = `Carregando... ${Math.round(xhr.loaded / xhr.total * 100)}%`;
-      }
-    },
-    err => {
-      console.error('Erro ao carregar modelo:', err);
-      loadingText.textContent = 'Erro ao carregar modelo';
-      setTimeout(() => overlay.classList.add('hidden'), 2000);
-    }
-  );
-};
-
-// Auto load first
-window.loadModel(document.querySelector('.project-item.active'));
-
-// Animate
-let time = 0;
-(function animate() {
-  requestAnimationFrame(animate);
-  time += 0.005;
-  controls.update();
-  pointLight.position.x = Math.sin(time) * 2;
-  pointLight.intensity = 0.7 + Math.sin(time * 2) * 0.1;
-  renderer.render(scene, camera);
-})();
-</script>
+<script src="main.js"></script>
+<script type="module" src="three-viewer.js"></script>
 </body>
 </html>
